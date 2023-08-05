@@ -1,0 +1,19 @@
+{
+    "manifest_version": 2,
+    "name": "Bookmarks-Sync",
+    "author": "K!2023",
+    "version": "1.0",
+
+    "description": "",
+
+    "permissions": ["bookmarks", "storage"],
+
+    "options_ui": {
+        "page": "settings/settings.html"
+    },
+
+    "browser_action": {
+        "default_title": "Bookmarks-Sync",
+        "default_popup": "popup/popup.html"
+    }
+}
