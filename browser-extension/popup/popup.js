@@ -23,7 +23,7 @@ function traverse(node) {
     });
 }
 
-async function createTree(node, parentId) {
+async function importTree(node, parentId) {
     const bookmark = await browser.bookmarks.create({
         index: node.index,
         title: node.title,
@@ -36,7 +36,7 @@ async function createTree(node, parentId) {
         return;
 
     for (let child of node.children)
-        await createTree(child, bookmark.id);
+        await importTree(child, bookmark.id);
 }
 
 async function send() {
