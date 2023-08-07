@@ -1,3 +1,5 @@
+tests/
+storage/
 server/node_modules
 server/tests
 server/storage
