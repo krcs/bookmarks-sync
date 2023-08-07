@@ -44,9 +44,12 @@ async function send() {
 
     const settings = await browser.storage.local.get();
 
-    browser.bookmarks.getSubTree(folder)
-        .then((tree) => traverse(tree[0]))
-        .then((tree) => createTree(tree, folder));
+    await browser.bookmarks.getSubTree(folder)
+        //.then((tree) => traverse(tree[0]))
+        .then((tree) => { 
+            //createTree(tree, folder)
+            console.log(JSON.stringify(tree[0]));
+        });
 }
 
 async function receive() {
