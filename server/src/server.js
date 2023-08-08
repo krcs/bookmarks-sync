@@ -1,4 +1,8 @@
+const yargs = require('yargs/yargs');
+
 const express = require('express');
+const cors = require('cors');
+
 const fsp = require('fs').promises;
 const fs = require('fs');
 const path = require('path');
@@ -6,7 +10,6 @@ const path = require('path');
 class Server {
     #app = null;
     #server = null;
-    #isRunning = false;
     #storageFolder = null;
     #port = null;
 
@@ -17,6 +20,7 @@ class Server {
         this.#app.use(express.json({
             limit: '4mb'
         }));
+        this.#app.use(cors());
 
         this.#app.get('/get/:id', async (req, res) => {
             const file = path.join(this.#storageFolder, `${req.params.id}.json`);
@@ -44,20 +48,39 @@ class Server {
     }
 
     async start() {
-        if (this.#isRunning) {
-            console.log("Server is already running.");
-            return;
-        }
-
         fs.mkdirSync(this.#storageFolder, { recursive: true });
 
         this.#server = await this.#app.listen(this.#port);
-        this.#isRunning = true;
-        console.log("Server started.");
+        console.log(`Server started.\n Storage: ${this.#storageFolder}\n Port: ${this.#port}`);
     }
 }
 
+const argv = yargs(process.argv.slice(2))
+    .options({
+        "storage": {
+            alias: "s",
+            default: "./storage",
+            describe: "File storage folder.",
+            demandOption: true,
+            type: "string"
+        },
+        "port": {
+            alias: "p",
+            default: "64666",
+            describe: "Listening port.",
+            demandOption: true,
+            type: "number"
+        }
+    })
+    .fail((msg, err, yargs) => {
+        console.error(msg);
+        process.exit(1);
+    })
+    .version(false)
+    .help(false)
+    .argv;
+
 (async() => {
-    const server = new Server("./storage/", 64666);
+    const server = new Server(argv.storage, argv.port);
     await server.start();
 })();

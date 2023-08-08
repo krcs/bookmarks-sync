@@ -1,28 +1,3 @@
-// BookmarkTreeNode -> CreateDetails
-function treeNode2createDetails(treeNode) {
-    return {
-        index: treeNode.index,
-        parentId: treeNode.parentId,
-        title: treeNode.title,
-        type: treeNode.type,
-        url: treeNode.url,
-        children : []
-    }
-}
-
-function traverse(node) {
-    return new Promise((resolve, reject) => {
-        const result = treeNode2createDetails(node);
-        for (let child of node.children) {
-            const cd = treeNode2createDetails(child);
-            result.children.push(cd);
-            if (child.children)
-                cd.children = traverse(child).children;
-        }
-        resolve(result);
-    });
-}
-
 async function importTree(node, parentId) {
     const bookmark = await browser.bookmarks.create({
         index: node.index,
@@ -43,18 +18,42 @@ async function send() {
     const folder = "toolbar_____";
 
     const settings = await browser.storage.local.get();
+    const url = `http://${settings.server}/save/${settings.id}`;
 
     await browser.bookmarks.getSubTree(folder)
-        //.then((tree) => traverse(tree[0]))
         .then((tree) => { 
-            //createTree(tree, folder)
-            console.log(JSON.stringify(tree[0]));
+            fetch(url, {
+                method: "post",
+                mode: "cors",
+                cache: "no-cache",
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                },
+                redirect: "follow",
+                referrerPolicy: "no-referrer",
+                body: JSON.stringify(tree[0])
+            });
+        }).catch((err) => {
+            console.error(err);
         });
 }
 
 async function receive() {
     const settings = await browser.storage.local.get();
-    console.log(settings);
+    const url = `http://${settings.server}/get/${settings.id}`;
+
+    fetch(url)
+        .then((response) => {
+            return response.json();
+        })
+        .then((data) => {
+            const folder = "toolbar_____";
+            importTree(data, folder);
+        })
+        .catch((err) => {
+            console.error(err);
+        });
 }
 
 document.addEventListener('DOMContentLoaded', (e) => {
