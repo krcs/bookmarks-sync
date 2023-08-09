@@ -6,6 +6,13 @@
 
     "description": "",
 
+    "browser_specific_settings": {
+      "gecko": {
+        "id": "{1f06f7ef-c531-4cb3-9d9f-3a8f688daf3e}",
+        "strict_min_version": "100.0"
+      }
+    },
+
     "permissions": ["bookmarks", "storage"],
 
     "options_ui": {

@@ -1,3 +1,5 @@
+#!/usr/bin/node
+
 const yargs = require('yargs/yargs');
 
 const express = require('express');
