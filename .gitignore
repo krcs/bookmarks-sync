@@ -1,6 +1,8 @@
 tests/
 storage/
+server/storage/
 server/node_modules
 server/tests
 server/storage
+web-ext-artifacts/
 *.zip

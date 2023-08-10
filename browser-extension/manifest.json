@@ -4,7 +4,9 @@
     "author": "K!2023",
     "version": "1.0",
 
-    "description": "",
+    "icons": {
+      "48": "icons/BookmarkIcon-48.png"
+    },
 
     "browser_specific_settings": {
       "gecko": {
