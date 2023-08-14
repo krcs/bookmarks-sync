@@ -27,7 +27,7 @@ async function clearTree(folder) {
         await browser.bookmarks.removeTree(node.id);
 }
 
-browser.runtime.onMessage.addListener((data, sender) => {
+browser.runtime.onMessage.addListener((data, sender, sendResponse) => {
     const folder = "toolbar_____";
 
     if (data === 'save') {
@@ -50,7 +50,11 @@ browser.runtime.onMessage.addListener((data, sender) => {
                     body: JSON.stringify(bookmarks)
                 });
             })
+            .then(() => {
+                sendResponse({ erorr: false, message: "Ok" });
+            })
             .catch((err) => {
+                sendResponse({ error: true, message: err.message });
                 console.error(err);
             });
     } else if (data === 'load') {
@@ -65,8 +69,13 @@ browser.runtime.onMessage.addListener((data, sender) => {
             .then((bookmarks) => {
                 return importChildren(bookmarks, folder);
             })
+            .then(() => {
+                sendResponse({ error: false, message: "Ok" });
+            })
             .catch((err) => {
+                sendResponse({ error: true, message: err.message });
                 console.error(err);
             });
     }
+    return true;
 });

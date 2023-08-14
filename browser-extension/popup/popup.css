@@ -1,0 +1,43 @@
+body {
+  background-color: #060606;
+  border: none;
+  display: block;
+  min-width: 400px;
+}
+
+.buttonsBar {
+  padding-bottom: 10px;
+}
+
+button {
+  background-color: #5A5F73;
+  color: white;
+  border: none;
+  border-radius: 10px;
+  font-style: bold;
+  height: 32px;
+  width: 64px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: #71768E;
+}
+
+button:active {
+  background-color: #424552;
+  color: #CCC;
+}
+
+textarea {
+  border-color: #5A5F73;
+  background-color: #060606;
+  color: #00AA00;
+  width: 100%;
+  padding :0;
+  margin: 0;
+  outline: none;
+}

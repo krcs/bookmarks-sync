@@ -1,12 +1,16 @@
 <!doctype html>
 <html lang="en">
     <head>
-       <meta charset="utf-8" />
+        <meta charset="utf-8" />
+        <link rel="stylesheet" href="popup.css" >
     </head>
     <body>
-        <div class="content">
-            <button id="sendBtn">Send</button>
-            <button id="receiveBtn">Receive</button>
+        <div class="buttonsBar">
+            <button id="saveBtn">Save</button>
+            <button id="loadBtn">Load</button>
+        </div>
+        <div>
+            <textarea id="log" readonly></textarea>
         </div>
         <script src="popup.js"></script>
     </body>
