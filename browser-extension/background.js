@@ -8,9 +8,9 @@ async function encrypt(content, password) {
     const contentBytes = Encoder.encode(content);
 
     const cipher = new Uint8Array(
-        await crypto.subtle.encrypt({ 
-            name: "AES-GCM", 
-            iv 
+        await crypto.subtle.encrypt({
+            name: "AES-GCM",
+            iv
         }, key, contentBytes)
     );
 
@@ -28,9 +28,9 @@ async function decrypt(encryptedData, password) {
 
     const cipher = base64ToBytes(encryptedData.cipher);
     const contentBytes = new Uint8Array(
-        await crypto.subtle.decrypt({ 
-            name: "AES-GCM", 
-            iv 
+        await crypto.subtle.decrypt({
+            name: "AES-GCM",
+            iv
         }, key, cipher)
     );
 
@@ -43,7 +43,7 @@ async function getKey(password, salt) {
     const initialKey = await crypto.subtle.importKey(
         "raw",
         passwordBytes,
-        { 
+        {
             name: "PBKDF2"
         },
         false,
@@ -51,14 +51,14 @@ async function getKey(password, salt) {
     );
 
     return crypto.subtle.deriveKey(
-       { 
-           name: "PBKDF2", 
-           salt, 
+       {
+           name: "PBKDF2",
+           salt,
            iterations: 100000,
-           hash: "SHA-256" 
+           hash: "SHA-256"
        },
        initialKey,
-       { 
+       {
            name: "AES-GCM",
            length: 256
        },
@@ -76,7 +76,7 @@ function base64ToBytes(base64) {
 }
 
 async function importChildren(node, parentId) {
-    await clearTree(parentId); 
+    await clearTree(parentId);
 
     for (let b of node.children)
         await importTree(b, parentId);
@@ -108,7 +108,7 @@ browser.runtime.onMessage.addListener((data, sender, sendResponse) => {
     const folder = "toolbar_____";
 
     if (data.command === 'save') {
-        Promise.allSettled([ 
+        Promise.allSettled([
             browser.storage.local.get(),
             browser.bookmarks.getSubTree(folder)
             .then((tree) => {
