@@ -12,13 +12,13 @@ function log(element, value, type) {
         element.value = value;
 }
 
-async function sync(command, logElement) {
+async function sync(data, logElement) {
     let logText = "Unknown command.";
 
-    if (command === "save") {
+    if (data.command === "save") {
         logText = "Saving...";
     }
-    else if (command === "load") {
+    else if (data.command === "load") {
         logText = "Loading...";
     }
     else {
@@ -27,7 +27,7 @@ async function sync(command, logElement) {
     }
     log(logElement, logText);
 
-    browser.runtime.sendMessage(command)
+    browser.runtime.sendMessage(data)
         .then((response) => {
             if (response.error) 
                 log(logElement, [ 
@@ -49,11 +49,15 @@ document.addEventListener('DOMContentLoaded', (e) => {
     const loadBtn = document.getElementById("loadBtn");
 
     const logElement = document.getElementById("log");
+    const passwordInput = document.getElementById("password");
 
     saveBtn.addEventListener("click", (e)=> {
         saveBtn.disabled = loadBtn.disabled = true;
 
-        sync("save", logElement)
+        sync({ 
+            command: "save", 
+            password: passwordInput.value
+        }, logElement)
             .then(() => {
                 saveBtn.disabled = loadBtn.disabled = false;
             });
@@ -65,7 +69,10 @@ document.addEventListener('DOMContentLoaded', (e) => {
     loadBtn.addEventListener("click", (e)=> {
         saveBtn.disabled = loadBtn.disabled = true;
 
-        sync("load", logElement)
+        sync({ 
+            command: "load", 
+            password: passwordInput.value
+        }, logElement)
             .then(() => {
                 saveBtn.disabled = loadBtn.disabled = false;
             });

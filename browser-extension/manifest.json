@@ -2,7 +2,7 @@
     "manifest_version": 2,
     "name": "Bookmarks-Sync",
     "author": "K!2023",
-    "version": "1.1",
+    "version": "1.2",
 
     "icons": {
       "48": "icons/BookmarkIcon-48.png"

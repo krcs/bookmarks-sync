@@ -1,12 +1,16 @@
 body {
   background-color: #060606;
+  color: white;
   border: none;
   display: block;
-  min-width: 400px;
 }
 
-.buttonsBar {
-  padding-bottom: 10px;
+.toolbar {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    justify-content: start;
+    padding-bottom: 10px;
 }
 
 button {
@@ -17,10 +21,26 @@ button {
   font-style: bold;
   height: 32px;
   width: 64px;
+  margin-right: 10px;
   text-align: center;
   text-decoration: none;
   display: inline-block;
   cursor: pointer;
+}
+
+#password {
+    background-color: #060606;
+    border-color: #525F73;
+    color: white;
+    outline: none;
+}
+
+.password {
+    margin-top: 5px;
+}
+
+label {
+  color: white;
 }
 
 button:hover {
